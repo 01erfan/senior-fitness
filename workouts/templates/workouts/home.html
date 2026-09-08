@@ -1,0 +1,953 @@
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- PWA -->
+
+    <link
+        rel="manifest"
+        href="{% static 'pwa/manifest.json' %}"
+    >
+
+    <meta
+        name="theme-color"
+        content="#4caf50"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default"
+    >
+
+    <title>
+        برنامه تمرینی سالمندان
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Tahoma, sans-serif;
+
+            background: #f3f6f8;
+
+            color: #222;
+
+        }
+
+
+        .container {
+
+            max-width: 900px;
+
+            margin: auto;
+
+            padding: 20px;
+
+        }
+
+
+        /* Header */
+
+        .header {
+
+            background: white;
+
+            border-radius: 25px;
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .logo {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .subtitle {
+
+            color: #666;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* Progress */
+
+        .progress-card {
+
+            background: white;
+
+            border-radius: 25px;
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .progress-title {
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .progress-text {
+
+            font-size: 18px;
+
+            color: #666;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .progress-bar {
+
+            width: 100%;
+
+            height: 15px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-fill {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: #4caf50;
+
+            transition: width 0.4s ease;
+
+        }
+
+
+        /* Next workout */
+
+        .next-card {
+
+            background: white;
+
+            border-radius: 25px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .next-title {
+
+            color: #777;
+
+            font-size: 17px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .next-day {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .next-button {
+
+            display: block;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            background: #4caf50;
+
+            color: white;
+
+            padding: 18px;
+
+            border-radius: 16px;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+        }
+
+
+        .next-button:hover {
+
+            opacity: 0.9;
+
+        }
+
+
+        /* Days */
+
+        .days-title {
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .days-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 12px;
+
+        }
+
+
+        .day {
+
+            position: relative;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 90px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            text-decoration: none;
+
+            color: #222;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.05);
+
+            transition:
+                transform 0.15s,
+                box-shadow 0.15s;
+
+        }
+
+
+        .day:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 20px
+                rgba(0, 0, 0, 0.09);
+
+        }
+
+
+        .day.completed {
+
+            background: #e8f5e9;
+
+        }
+
+
+        .check {
+
+            position: absolute;
+
+            top: 7px;
+
+            left: 9px;
+
+            font-size: 18px;
+
+        }
+
+
+        /* Reset */
+
+        .reset-container {
+
+            text-align: center;
+
+            margin-top: 30px;
+
+            padding-bottom: 10px;
+
+        }
+
+
+        .reset-button {
+
+            background: transparent;
+
+            border: none;
+
+            color: #777;
+
+            font-family: Tahoma, sans-serif;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            padding: 8px 12px;
+
+        }
+
+
+        .reset-button:hover {
+
+            color: #d32f2f;
+
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 650px) {
+
+            .container {
+
+                padding: 12px;
+
+            }
+
+
+            .header {
+
+                padding: 20px;
+
+            }
+
+
+            .logo {
+
+                font-size: 25px;
+
+            }
+
+
+            .subtitle {
+
+                font-size: 16px;
+
+            }
+
+
+            .days-grid {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+            }
+
+
+            .day {
+
+                min-height: 80px;
+
+                font-size: 19px;
+
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .days-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="logo">
+
+            🏃 برنامه تمرینی
+
+        </div>
+
+
+        <div class="subtitle">
+
+            برنامه ۳۰ روزه تمرین و فعالیت بدنی
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Progress -->
+
+    <div class="progress-card">
+
+        <div class="progress-title">
+
+            📊 پیشرفت شما
+
+        </div>
+
+
+        <div
+            class="progress-text"
+            id="progressText"
+        >
+
+            ۰ از ۳۰ روز انجام شده
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Next Workout -->
+
+    <div
+        class="next-card"
+        id="nextCard"
+    >
+
+        <div class="next-title">
+
+            تمرین بعدی شما
+
+        </div>
+
+
+        <div
+            class="next-day"
+            id="nextDay"
+        >
+
+            روز ۱
+
+        </div>
+
+
+        <a
+            href="/day/1/"
+            class="next-button"
+            id="nextButton"
+        >
+
+            شروع تمرین
+
+        </a>
+
+    </div>
+
+
+
+    <!-- Days -->
+
+    <div class="days-title">
+
+        📅 برنامه ۳۰ روزه
+
+    </div>
+
+
+    <div class="days-grid">
+
+        {% for day in days %}
+
+            <a
+                href="{% url 'workout_day' day %}"
+                class="day"
+                data-day="{{ day }}"
+            >
+
+                <span>
+
+                    روز {{ day }}
+
+                </span>
+
+
+                <span
+                    class="check"
+                    id="check-{{ day }}"
+                ></span>
+
+            </a>
+
+        {% endfor %}
+
+    </div>
+
+
+
+    <!-- Reset -->
+
+    <div class="reset-container">
+
+        <button
+            class="reset-button"
+            onclick="resetProgress()"
+        >
+
+            🔄 ریست برنامه
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    /*
+        تعداد روزهای انجام شده
+    */
+
+    function updateProgress() {
+
+
+        let completed = 0;
+
+
+        for (
+            let day = 1;
+            day <= 30;
+            day++
+        ) {
+
+
+            const status =
+
+                localStorage.getItem(
+                    `day_${day}`
+                );
+
+
+            const dayElement =
+
+                document.querySelector(
+                    `[data-day="${day}"]`
+                );
+
+
+            const checkElement =
+
+                document.getElementById(
+                    `check-${day}`
+                );
+
+
+            if (
+                status === "completed"
+            ) {
+
+
+                completed++;
+
+
+                if (dayElement) {
+
+                    dayElement.classList.add(
+                        "completed"
+                    );
+
+                }
+
+
+                if (checkElement) {
+
+                    checkElement.textContent =
+                        "✓";
+
+                }
+
+            }
+
+            else {
+
+
+                if (dayElement) {
+
+                    dayElement.classList.remove(
+                        "completed"
+                    );
+
+                }
+
+
+                if (checkElement) {
+
+                    checkElement.textContent =
+                        "";
+
+                }
+
+            }
+
+        }
+
+
+
+        /*
+            درصد
+        */
+
+        const percentage =
+
+            (completed / 30) * 100;
+
+
+        document.getElementById(
+            "progressFill"
+        ).style.width =
+
+            `${percentage}%`;
+
+
+        document.getElementById(
+            "progressText"
+        ).textContent =
+
+            `${completed} از ۳۰ روز انجام شده`;
+
+
+
+        /*
+            پیدا کردن تمرین بعدی
+        */
+
+        let nextDay = null;
+
+
+        for (
+            let day = 1;
+            day <= 30;
+            day++
+        ) {
+
+            if (
+                localStorage.getItem(
+                    `day_${day}`
+                ) !== "completed"
+            ) {
+
+                nextDay = day;
+
+                break;
+
+            }
+
+        }
+
+
+
+        /*
+            همه روزها تمام شده
+        */
+
+        if (nextDay === null) {
+
+
+            document.getElementById(
+                "nextDay"
+            ).textContent =
+
+                "🎉 برنامه کامل شد";
+
+
+            document.getElementById(
+                "nextButton"
+            ).textContent =
+
+                "مشاهده روز اول";
+
+
+            document.getElementById(
+                "nextButton"
+            ).href =
+
+                "/day/1/";
+
+
+        }
+
+        else {
+
+
+            document.getElementById(
+                "nextDay"
+            ).textContent =
+
+                `روز ${nextDay}`;
+
+
+            document.getElementById(
+                "nextButton"
+            ).textContent =
+
+                "▶ شروع تمرین";
+
+
+            document.getElementById(
+                "nextButton"
+            ).href =
+
+                `/day/${nextDay}/`;
+
+        }
+
+    }
+
+
+
+    /*
+        ریست برنامه
+    */
+
+    function resetProgress() {
+
+
+        const confirmReset =
+
+            confirm(
+                "آیا مطمئن هستید که می‌خواهید تمام تمرین‌ها ریست شوند؟"
+            );
+
+
+        if (!confirmReset) {
+
+            return;
+
+        }
+
+
+        for (
+            let day = 1;
+            day <= 30;
+            day++
+        ) {
+
+            localStorage.removeItem(
+                `day_${day}`
+            );
+
+        }
+
+
+        location.reload();
+
+    }
+
+
+
+    /*
+        Service Worker
+    */
+
+    if (
+        "serviceWorker" in navigator
+    ) {
+
+
+        window.addEventListener(
+            "load",
+            function () {
+
+
+                navigator.serviceWorker
+
+                    .register(
+                        "/service-worker.js"
+                    )
+
+                    .then(
+                        function (registration) {
+
+                            console.log(
+                                "Service Worker registered:",
+                                registration.scope
+                            );
+
+                        }
+                    )
+
+                    .catch(
+                        function (error) {
+
+                            console.error(
+                                "Service Worker error:",
+                                error
+                            );
+
+                        }
+                    );
+
+            }
+        );
+
+    }
+
+
+
+    /*
+        اجرای اولیه
+    */
+
+    updateProgress();
+
+
+</script>
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            navigator.serviceWorker
+                .register("/service-worker.js")
+                .then(function (registration) {
+
+                    console.log(
+                        "Service Worker registered:",
+                        registration.scope
+                    );
+
+                })
+                .catch(function (error) {
+
+                    console.error(
+                        "Service Worker error:",
+                        error
+                    );
+
+                });
+
+        }
+    );
+
+}
+
+</script>
+</body>
+
+</html>
+```

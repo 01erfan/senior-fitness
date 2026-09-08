@@ -1,0 +1,2372 @@
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- PWA -->
+
+    <link
+        rel="manifest"
+        href="{% static 'pwa/manifest.json' %}"
+    >
+
+    <meta
+        name="theme-color"
+        content="#4caf50"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <title>
+        تمرین روز {{ day }}
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Tahoma, sans-serif;
+
+            background: #f3f6f8;
+
+            color: #222;
+
+        }
+
+
+        .container {
+
+            max-width: 750px;
+
+            margin: auto;
+
+            padding: 20px;
+
+        }
+
+
+        /* Header */
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .day-title {
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+        }
+
+
+        .back {
+
+            text-decoration: none;
+
+            color: #333;
+
+            background: white;
+
+            padding: 12px 16px;
+
+            border-radius: 12px;
+
+            font-size: 18px;
+
+        }
+
+
+        /* Card */
+
+        .card {
+
+            background: white;
+
+            border-radius: 28px;
+
+            padding: 30px 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.07);
+
+        }
+
+
+        /* Progress */
+
+        .progress-info {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .progress-bar {
+
+            width: 100%;
+
+            height: 14px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-fill {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: #4caf50;
+
+            transition: width 0.3s;
+
+        }
+
+
+        /* Exercise */
+
+        .exercise-label {
+
+            font-size: 18px;
+
+            color: #777;
+
+            margin-top: 35px;
+
+        }
+
+
+        .exercise-name {
+
+            font-size: 36px;
+
+            font-weight: bold;
+
+            margin-top: 10px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .description {
+
+            font-size: 21px;
+
+            line-height: 1.9;
+
+            color: #555;
+
+            margin-top: 12px;
+
+        }
+
+
+        /* Exercise details */
+
+        .exercise-details {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .detail {
+
+            background: #f5f7f8;
+
+            border-radius: 14px;
+
+            padding: 14px 8px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* Set information */
+
+        .set-info {
+
+            display: none;
+
+            margin-top: 25px;
+
+            background: #f1f5f9;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+        }
+
+
+        .set-title {
+
+            font-size: 19px;
+
+            color: #777;
+
+        }
+
+
+        .set-number {
+
+            font-size: 34px;
+
+            font-weight: bold;
+
+            margin-top: 8px;
+
+        }
+
+
+        .rep-number {
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            margin-top: 8px;
+
+        }
+
+
+        /* Media */
+
+        .media-container {
+
+            margin-top: 25px;
+
+        }
+
+
+        .exercise-image {
+
+            display: none;
+
+            width: 100%;
+
+            max-height: 380px;
+
+            object-fit: contain;
+
+            border-radius: 20px;
+
+        }
+
+
+        .exercise-video {
+
+            display: none;
+
+            width: 100%;
+
+            max-height: 380px;
+
+            border-radius: 20px;
+
+            background: #000;
+
+        }
+
+
+        /* Timer */
+
+        .timer-section {
+
+            display: none;
+
+        }
+
+
+        .timer-label {
+
+            font-size: 17px;
+
+            color: #777;
+
+            margin-top: 25px;
+
+        }
+
+
+        .timer {
+
+            font-size: 90px;
+
+            font-weight: bold;
+
+            margin: 15px 0 25px;
+
+            direction: ltr;
+
+        }
+
+
+        /* Next */
+
+        .next-exercise {
+
+            background: #f5f7f8;
+
+            border-radius: 16px;
+
+            padding: 15px;
+
+            margin-top: 20px;
+
+            font-size: 18px;
+
+        }
+
+
+        .next-exercise span {
+
+            font-weight: bold;
+
+        }
+
+
+        /* Rest */
+
+        .rest-panel {
+
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            background: #f1f5f9;
+
+            border-radius: 20px;
+
+        }
+
+
+        .rest-icon {
+
+            font-size: 45px;
+
+        }
+
+
+        .rest-title {
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-top: 10px;
+
+        }
+
+
+        .rest-timer {
+
+            font-size: 65px;
+
+            font-weight: bold;
+
+            margin: 15px 0;
+
+            direction: ltr;
+
+        }
+
+
+        .rest-next {
+
+            font-size: 18px;
+
+            color: #555;
+
+        }
+
+
+        .rest-next strong {
+
+            color: #222;
+
+        }
+
+
+        /* Buttons */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 15px;
+
+            margin-top: 25px;
+
+        }
+
+
+        button {
+
+            flex: 1;
+
+            border: none;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            font-family: inherit;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .start {
+
+            background: #4caf50;
+
+            color: white;
+
+        }
+
+
+        .done {
+
+            display: none;
+
+            background: #4caf50;
+
+            color: white;
+
+        }
+
+
+        .stop {
+
+            background: #e5e7eb;
+
+            color: #222;
+
+        }
+
+
+        button:hover {
+
+            opacity: 0.9;
+
+        }
+
+
+        /* Message */
+
+        .message {
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            margin-top: 25px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* Finished */
+
+        .finished {
+
+            display: none;
+
+            text-align: center;
+
+        }
+
+
+        .finished-icon {
+
+            font-size: 80px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .finished h2 {
+
+            font-size: 34px;
+
+            margin: 10px 0;
+
+        }
+
+
+        .finished p {
+
+            font-size: 21px;
+
+            line-height: 1.8;
+
+            color: #555;
+
+        }
+
+
+        .home-button {
+
+            display: block;
+
+            margin-top: 25px;
+
+            background: #4caf50;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .container {
+
+                padding: 12px;
+
+            }
+
+
+            .card {
+
+                padding: 25px 18px;
+
+                border-radius: 22px;
+
+            }
+
+
+            .day-title {
+
+                font-size: 21px;
+
+            }
+
+
+            .back {
+
+                font-size: 16px;
+
+                padding: 10px 12px;
+
+            }
+
+
+            .exercise-name {
+
+                font-size: 29px;
+
+            }
+
+
+            .description {
+
+                font-size: 19px;
+
+            }
+
+
+            .timer {
+
+                font-size: 70px;
+
+            }
+
+
+            .rest-timer {
+
+                font-size: 55px;
+
+            }
+
+
+            .buttons {
+
+                flex-direction: column;
+
+            }
+
+
+            button {
+
+                padding: 19px;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .exercise-details {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="day-title">
+
+            🏃 روز {{ day }}
+
+        </div>
+
+
+        <a
+            href="/"
+            class="back"
+        >
+
+            ← بازگشت
+
+        </a>
+
+    </div>
+
+
+
+    <!-- Workout -->
+
+    <div
+        class="card"
+        id="workoutCard"
+    >
+
+
+        <!-- Progress -->
+
+        <div
+            class="progress-info"
+            id="progress"
+        >
+
+            حرکت ۱ از ۱
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill"
+            ></div>
+
+        </div>
+
+
+
+        <!-- Exercise -->
+
+        <div class="exercise-label">
+
+            حرکت فعلی
+
+        </div>
+
+
+        <div
+            class="exercise-name"
+            id="exerciseName"
+        >
+
+            در حال بارگذاری...
+
+        </div>
+
+
+        <div
+            class="description"
+            id="description"
+        ></div>
+
+
+
+        <!-- Details -->
+
+        <div
+            class="exercise-details"
+            id="exerciseDetails"
+        >
+
+            <div class="detail">
+
+                🔢
+
+                <span id="repetitions">
+                    -
+                </span>
+
+                تکرار
+
+            </div>
+
+
+            <div class="detail">
+
+                🔁
+
+                <span id="sets">
+                    -
+                </span>
+
+                ست
+
+            </div>
+
+
+            <div class="detail">
+
+                🧘
+
+                <span id="rest">
+                    -
+                </span>
+
+                ثانیه استراحت
+
+            </div>
+
+
+            <div class="detail">
+
+                ⭐
+
+                <span id="difficulty">
+                    -
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Set -->
+
+        <div
+            class="set-info"
+            id="setInfo"
+        >
+
+            <div class="set-title">
+
+                ست فعلی
+
+            </div>
+
+
+            <div
+                class="set-number"
+                id="currentSet"
+            >
+
+                ۱ از ۱
+
+            </div>
+
+
+            <div
+                class="rep-number"
+                id="currentRepetitions"
+            >
+
+                ۱۰ تکرار
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Media -->
+
+        <div
+            class="media-container"
+            id="mediaContainer"
+        >
+
+            <img
+                id="exerciseImage"
+                class="exercise-image"
+                alt="تصویر آموزشی حرکت"
+            >
+
+
+            <video
+                id="exerciseVideo"
+                class="exercise-video"
+                controls
+                playsinline
+            >
+
+                مرورگر شما از پخش ویدئو پشتیبانی نمی‌کند.
+
+            </video>
+
+        </div>
+
+
+
+        <!-- Timer -->
+
+        <div
+            class="timer-section"
+            id="timerSection"
+        >
+
+            <div class="timer-label">
+
+                زمان باقی‌مانده
+
+            </div>
+
+
+            <div
+                class="timer"
+                id="timer"
+            >
+
+                00:00
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Rest -->
+
+        <div
+            class="rest-panel"
+            id="restPanel"
+        >
+
+            <div class="rest-icon">
+
+                🧘
+
+            </div>
+
+
+            <div class="rest-title">
+
+                زمان استراحت
+
+            </div>
+
+
+            <div
+                class="rest-timer"
+                id="restTimer"
+            >
+
+                00:00
+
+            </div>
+
+
+            <div class="rest-next">
+
+                بعدی:
+
+                <strong id="restNextExercise">
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Next -->
+
+        <div
+            class="next-exercise"
+            id="nextExercise"
+        >
+
+            حرکت بعدی:
+
+            <span id="nextExerciseName">
+                -
+            </span>
+
+        </div>
+
+
+
+        <!-- Buttons -->
+
+        <div class="buttons">
+
+
+            <!-- Timer -->
+
+            <button
+                class="start"
+                id="startButton"
+                onclick="startTimer()"
+            >
+
+                ▶ شروع تمرین
+
+            </button>
+
+
+            <!-- Repetition -->
+
+            <button
+                class="done"
+                id="doneButton"
+                onclick="completeSet()"
+            >
+
+                ✓ انجام دادم
+
+            </button>
+
+
+            <!-- Stop -->
+
+            <button
+                class="stop"
+                id="stopButton"
+                onclick="stopTimer()"
+            >
+
+                ⏸ توقف
+
+            </button>
+
+        </div>
+
+
+
+        <div
+            class="message"
+            id="message"
+        ></div>
+
+
+    </div>
+
+
+
+    <!-- Finished -->
+
+    <div
+        class="card finished"
+        id="finishedCard"
+    >
+
+        <div class="finished-icon">
+
+            🎉
+
+        </div>
+
+
+        <h2>
+
+            تمرین تمام شد!
+
+        </h2>
+
+
+        <p>
+
+            آفرین! شما تمرین روز {{ day }}
+            را با موفقیت کامل کردید.
+
+        </p>
+
+
+        <p>
+
+            استراحت کنید و آب بنوشید.
+
+        </p>
+
+
+        <a
+            href="/"
+            class="home-button"
+        >
+
+            🏠 بازگشت به برنامه
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- Django → JavaScript -->
+
+{{ exercise_data|json_script:"exercise-data" }}
+
+
+<script>
+
+
+    const exercises = JSON.parse(
+
+        document.getElementById(
+            "exercise-data"
+        ).textContent
+
+    );
+
+
+    let currentExercise = 0;
+
+    let currentSet = 1;
+
+    let remainingSeconds = 0;
+
+    let remainingRestSeconds = 0;
+
+    let timerInterval = null;
+
+    let isResting = false;
+
+
+
+    /*
+        نمایش حرکت
+    */
+
+    function showExercise() {
+
+
+        if (exercises.length === 0) {
+
+
+            document.getElementById(
+                "exerciseName"
+            ).textContent =
+
+                "تمرینی ثبت نشده است";
+
+
+            document.getElementById(
+                "description"
+            ).textContent =
+
+                "برای این روز هنوز تمرینی تعریف نشده است.";
+
+
+            document.getElementById(
+                "progress"
+            ).textContent =
+
+                "بدون تمرین";
+
+
+            document.getElementById(
+                "nextExercise"
+            ).style.display =
+
+                "none";
+
+
+            document.getElementById(
+                "exerciseDetails"
+            ).style.display =
+
+                "none";
+
+
+            document.getElementById(
+                "mediaContainer"
+            ).style.display =
+
+                "none";
+
+
+            document.getElementById(
+                "startButton"
+            ).style.display =
+
+                "none";
+
+
+            document.getElementById(
+                "stopButton"
+            ).style.display =
+
+                "none";
+
+
+            return;
+
+        }
+
+
+
+        const exercise =
+            exercises[currentExercise];
+
+
+        currentSet = 1;
+
+
+
+        /*
+            اطلاعات اصلی
+        */
+
+        document.getElementById(
+            "exerciseName"
+        ).textContent =
+            exercise.name;
+
+
+        document.getElementById(
+            "description"
+        ).textContent =
+            exercise.description;
+
+
+        document.getElementById(
+            "repetitions"
+        ).textContent =
+            exercise.repetitions || "-";
+
+
+        document.getElementById(
+            "sets"
+        ).textContent =
+            exercise.sets || "-";
+
+
+        document.getElementById(
+            "rest"
+        ).textContent =
+            exercise.rest || "0";
+
+
+        document.getElementById(
+            "difficulty"
+        ).textContent =
+            exercise.difficulty;
+
+
+
+        /*
+            پیشرفت حرکت
+        */
+
+        document.getElementById(
+            "progress"
+        ).textContent =
+
+            `حرکت ${
+                currentExercise + 1
+            } از ${
+                exercises.length
+            }`;
+
+
+        const percentage =
+
+            (
+                (currentExercise + 1)
+                /
+                exercises.length
+            ) * 100;
+
+
+        document.getElementById(
+            "progressFill"
+        ).style.width =
+
+            `${percentage}%`;
+
+
+
+        /*
+            تشخیص نوع تمرین
+        */
+
+        const isRepetitionExercise =
+
+            exercise.repetitions > 0 &&
+            exercise.sets > 0;
+
+
+        if (isRepetitionExercise) {
+
+            showRepetitionExercise();
+
+        }
+
+        else {
+
+            showTimerExercise();
+
+        }
+
+
+
+        /*
+            تصویر
+        */
+
+        const image =
+            document.getElementById(
+                "exerciseImage"
+            );
+
+
+        if (exercise.image) {
+
+            image.src =
+                exercise.image;
+
+            image.style.display =
+                "block";
+
+        }
+
+        else {
+
+            image.removeAttribute(
+                "src"
+            );
+
+            image.style.display =
+                "none";
+
+        }
+
+
+
+        /*
+            ویدئو
+        */
+
+        const video =
+            document.getElementById(
+                "exerciseVideo"
+            );
+
+
+        if (exercise.video) {
+
+            video.src =
+                exercise.video;
+
+            video.style.display =
+                "block";
+
+        }
+
+        else {
+
+            video.pause();
+
+            video.removeAttribute(
+                "src"
+            );
+
+            video.load();
+
+            video.style.display =
+                "none";
+
+        }
+
+
+
+        /*
+            حرکت بعدی
+        */
+
+        const next =
+            exercises[
+                currentExercise + 1
+            ];
+
+
+        if (next) {
+
+            document.getElementById(
+                "nextExerciseName"
+            ).textContent =
+                next.name;
+
+            document.getElementById(
+                "nextExercise"
+            ).style.display =
+                "block";
+
+        }
+
+        else {
+
+            document.getElementById(
+                "nextExerciseName"
+            ).textContent =
+                "پایان تمرین";
+
+        }
+
+    }
+
+
+
+    /*
+        تمرین تکراری
+    */
+
+    function showRepetitionExercise() {
+
+
+        document.getElementById(
+            "timerSection"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "setInfo"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "doneButton"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "startButton"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "stopButton"
+        ).style.display =
+            "none";
+
+
+        updateSetInfo();
+
+    }
+
+
+
+    /*
+        تمرین تایم‌دار
+    */
+
+    function showTimerExercise() {
+
+
+        const exercise =
+            exercises[currentExercise];
+
+
+        document.getElementById(
+            "setInfo"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "timerSection"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "startButton"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "doneButton"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "stopButton"
+        ).style.display =
+            "block";
+
+
+        remainingSeconds =
+            exercise.duration;
+
+
+        updateTimer();
+
+    }
+
+
+
+    /*
+        نمایش ست
+    */
+
+    function updateSetInfo() {
+
+
+        const exercise =
+            exercises[currentExercise];
+
+
+        document.getElementById(
+            "currentSet"
+        ).textContent =
+
+            `${currentSet} از ${exercise.sets}`;
+
+
+        document.getElementById(
+            "currentRepetitions"
+        ).textContent =
+
+            `${exercise.repetitions} تکرار`;
+
+    }
+
+
+
+    /*
+        انجام ست
+    */
+
+    function completeSet() {
+
+
+        if (isResting) {
+
+            return;
+
+        }
+
+
+        const exercise =
+            exercises[currentExercise];
+
+
+        /*
+            ست بعدی
+        */
+
+        if (currentSet < exercise.sets) {
+
+
+            const completedSet =
+                currentSet;
+
+
+            currentSet++;
+
+
+            /*
+                اگر استراحت داریم
+            */
+
+            if (exercise.rest > 0) {
+
+                startSetRest(
+                    completedSet
+                );
+
+            }
+
+            else {
+
+                updateSetInfo();
+
+            }
+
+
+        }
+
+        else {
+
+
+            /*
+                همه ست‌ها تمام شده
+            */
+
+            if (exercise.rest > 0) {
+
+                startExerciseRest();
+
+            }
+
+            else {
+
+                nextExercise();
+
+            }
+
+        }
+
+    }
+
+
+
+    /*
+        استراحت بین ست‌ها
+    */
+
+    function startSetRest(
+        completedSet
+    ) {
+
+
+        isResting = true;
+
+
+        remainingRestSeconds =
+
+            exercises[
+                currentExercise
+            ].rest;
+
+
+        hideExerciseInterface();
+
+
+        document.getElementById(
+            "restPanel"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "restNextExercise"
+        ).textContent =
+
+            `ست ${currentSet}`;
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+
+            `ست ${completedSet} انجام شد. استراحت کنید.`;
+
+
+        updateRestTimer();
+
+
+        timerInterval =
+
+            setInterval(function () {
+
+
+                if (
+                    remainingRestSeconds > 0
+                ) {
+
+                    remainingRestSeconds--;
+
+                    updateRestTimer();
+
+                }
+
+                else {
+
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    timerInterval = null;
+
+                    isResting = false;
+
+
+                    showExerciseInterface();
+
+
+                    updateSetInfo();
+
+                }
+
+
+            }, 1000);
+
+    }
+
+
+
+    /*
+        استراحت بعد از کل حرکت
+    */
+
+    function startExerciseRest() {
+
+
+        isResting = true;
+
+
+        remainingRestSeconds =
+
+            exercises[
+                currentExercise
+            ].rest;
+
+
+        hideExerciseInterface();
+
+
+        document.getElementById(
+            "restPanel"
+        ).style.display =
+            "block";
+
+
+        const next =
+            exercises[
+                currentExercise + 1
+            ];
+
+
+        document.getElementById(
+            "restNextExercise"
+        ).textContent =
+
+            next
+                ? next.name
+                : "پایان تمرین";
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+
+            "تمام ست‌های این حرکت انجام شد.";
+
+
+        updateRestTimer();
+
+
+        timerInterval =
+
+            setInterval(function () {
+
+
+                if (
+                    remainingRestSeconds > 0
+                ) {
+
+                    remainingRestSeconds--;
+
+                    updateRestTimer();
+
+                }
+
+                else {
+
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    timerInterval = null;
+
+                    isResting = false;
+
+
+                    nextExercise();
+
+                }
+
+
+            }, 1000);
+
+    }
+
+
+
+    /*
+        مخفی کردن اطلاعات حرکت
+    */
+
+    function hideExerciseInterface() {
+
+
+        document.getElementById(
+            "exerciseName"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "description"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "exerciseDetails"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "mediaContainer"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "timerSection"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "setInfo"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "nextExercise"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "startButton"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "doneButton"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "stopButton"
+        ).style.display =
+            "none";
+
+    }
+
+
+
+    /*
+        نمایش دوباره اطلاعات حرکت
+    */
+
+    function showExerciseInterface() {
+
+
+        document.getElementById(
+            "exerciseName"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "description"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "exerciseDetails"
+        ).style.display =
+            "grid";
+
+
+        document.getElementById(
+            "mediaContainer"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "restPanel"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "message"
+        ).textContent = "";
+
+
+        const exercise =
+            exercises[currentExercise];
+
+
+        if (
+            exercise &&
+            exercise.repetitions > 0 &&
+            exercise.sets > 0
+        ) {
+
+
+            document.getElementById(
+                "setInfo"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "doneButton"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "startButton"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "stopButton"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "nextExercise"
+            ).style.display =
+                "block";
+
+        }
+
+        else {
+
+
+            document.getElementById(
+                "timerSection"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "startButton"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "stopButton"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "doneButton"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "nextExercise"
+            ).style.display =
+                "block";
+
+        }
+
+    }
+
+
+
+    /*
+        تایمر
+    */
+
+    function updateTimer() {
+
+
+        let minutes =
+
+            Math.floor(
+                remainingSeconds / 60
+            );
+
+
+        let seconds =
+
+            remainingSeconds % 60;
+
+
+        minutes =
+
+            String(minutes).padStart(
+                2,
+                "0"
+            );
+
+
+        seconds =
+
+            String(seconds).padStart(
+                2,
+                "0"
+            );
+
+
+        document.getElementById(
+            "timer"
+        ).textContent =
+
+            `${minutes}:${seconds}`;
+
+    }
+
+
+
+    /*
+        تایمر استراحت
+    */
+
+    function updateRestTimer() {
+
+
+        let minutes =
+
+            Math.floor(
+                remainingRestSeconds / 60
+            );
+
+
+        let seconds =
+
+            remainingRestSeconds % 60;
+
+
+        minutes =
+
+            String(minutes).padStart(
+                2,
+                "0"
+            );
+
+
+        seconds =
+
+            String(seconds).padStart(
+                2,
+                "0"
+            );
+
+
+        document.getElementById(
+            "restTimer"
+        ).textContent =
+
+            `${minutes}:${seconds}`;
+
+    }
+
+
+
+    /*
+        شروع تمرین تایم‌دار
+    */
+
+    function startTimer() {
+
+
+        if (timerInterval !== null) {
+
+            return;
+
+        }
+
+
+        if (isResting) {
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "message"
+        ).textContent = "";
+
+
+        document.getElementById(
+            "startButton"
+        ).textContent =
+            "⏱ در حال تمرین...";
+
+
+        timerInterval =
+
+            setInterval(function () {
+
+
+                if (
+                    remainingSeconds > 0
+                ) {
+
+
+                    remainingSeconds--;
+
+                    updateTimer();
+
+                }
+
+                else {
+
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    timerInterval = null;
+
+
+                    const current =
+                        exercises[
+                            currentExercise
+                        ];
+
+
+                    if (current.rest > 0) {
+
+                        startExerciseRest();
+
+                    }
+
+                    else {
+
+                        nextExercise();
+
+                    }
+
+                }
+
+
+            }, 1000);
+
+    }
+
+
+
+    /*
+        توقف تایمر
+    */
+
+    function stopTimer() {
+
+
+        clearInterval(
+            timerInterval
+        );
+
+
+        timerInterval = null;
+
+
+        if (!isResting) {
+
+
+            document.getElementById(
+                "startButton"
+            ).textContent =
+
+                "▶ ادامه تمرین";
+
+        }
+
+    }
+
+
+
+    /*
+        حرکت بعدی
+    */
+
+    function nextExercise() {
+
+
+        clearInterval(
+            timerInterval
+        );
+
+
+        timerInterval = null;
+
+
+        isResting = false;
+
+
+        currentExercise++;
+
+
+        if (
+
+            currentExercise >=
+            exercises.length
+
+        ) {
+
+
+            finishWorkout();
+
+            return;
+
+        }
+
+
+        currentSet = 1;
+
+
+        showExercise();
+
+    }
+
+
+
+    /*
+        پایان تمرین
+    */
+
+    function finishWorkout() {
+
+
+        clearInterval(
+            timerInterval
+        );
+
+
+        timerInterval = null;
+
+
+        localStorage.setItem(
+
+            "day_{{ day }}",
+
+            "completed"
+
+        );
+
+
+        document.getElementById(
+            "workoutCard"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "finishedCard"
+        ).style.display =
+            "block";
+
+    }
+
+
+
+    /*
+        Service Worker
+    */
+
+    if (
+        "serviceWorker" in navigator
+    ) {
+
+
+        window.addEventListener(
+            "load",
+            function () {
+
+
+                navigator.serviceWorker
+
+                    .register(
+                        "/service-worker.js"
+                    )
+
+                    .then(
+                        function (registration) {
+
+                            console.log(
+                                "Service Worker registered:",
+                                registration.scope
+                            );
+
+                        }
+                    )
+
+                    .catch(
+                        function (error) {
+
+                            console.error(
+                                "Service Worker error:",
+                                error
+                            );
+
+                        }
+                    );
+
+            }
+        );
+
+    }
+
+
+
+    /*
+        شروع صفحه
+    */
+
+    showExercise();
+
+
+</script>
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            navigator.serviceWorker
+                .register("/service-worker.js")
+                .then(function (registration) {
+
+                    console.log(
+                        "Service Worker registered:",
+                        registration.scope
+                    );
+
+                })
+                .catch(function (error) {
+
+                    console.error(
+                        "Service Worker error:",
+                        error
+                    );
+
+                });
+
+        }
+    );
+
+}
+
+</script>
+</body>
+
+</html>
+```
