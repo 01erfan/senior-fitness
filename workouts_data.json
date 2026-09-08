@@ -1,0 +1,332 @@
+[
+{
+  "model": "workouts.exercise",
+  "pk": 4,
+  "fields": {
+    "name": "راه رفتن ارام",
+    "description": "به ارامی راه بروید",
+    "duration": 60,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 0,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.exercise",
+  "pk": 5,
+  "fields": {
+    "name": "چرخش آرام شانه",
+    "description": "شانه هارا بچرخانید",
+    "duration": 30,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 0,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.exercise",
+  "pk": 6,
+  "fields": {
+    "name": "باز و بسته کردن دست ها",
+    "description": "دست هارا باز و بسته کنید",
+    "duration": 30,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 0,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.exercise",
+  "pk": 7,
+  "fields": {
+    "name": "حرکت زانو و دست ها",
+    "description": "دست ها و زانو های خود را حرکت دهید",
+    "duration": 120,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 0,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.exercise",
+  "pk": 8,
+  "fields": {
+    "name": "نشستن و بلند شدن از صندلی",
+    "description": "از صندلی بلند شوید و بنشینید",
+    "duration": 45,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 15,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.exercise",
+  "pk": 9,
+  "fields": {
+    "name": "بالا آوردن زانو در حالت ایستاده با گرفتن صندلی",
+    "description": "با حفظ تعادل زانوی خود را بالا بیاورید",
+    "duration": 45,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 15,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.exercise",
+  "pk": 10,
+  "fields": {
+    "name": "بالا آمدن روی پنجه",
+    "description": "روی پنجه پای خود بالا بیاید",
+    "duration": 45,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 15,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.exercise",
+  "pk": 11,
+  "fields": {
+    "name": "فشار به دیوار",
+    "description": "با دستان خود به دیوار فشار بیاورید",
+    "duration": 45,
+    "repetitions": 0,
+    "sets": 1,
+    "rest": 15,
+    "difficulty": "easy",
+    "image": "",
+    "video": ""
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 1,
+  "fields": {
+    "day": 1
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 2,
+  "fields": {
+    "day": 2
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 3,
+  "fields": {
+    "day": 3
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 4,
+  "fields": {
+    "day": 4
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 5,
+  "fields": {
+    "day": 5
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 6,
+  "fields": {
+    "day": 6
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 7,
+  "fields": {
+    "day": 7
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 8,
+  "fields": {
+    "day": 8
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 9,
+  "fields": {
+    "day": 9
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 10,
+  "fields": {
+    "day": 10
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 11,
+  "fields": {
+    "day": 11
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 12,
+  "fields": {
+    "day": 12
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 13,
+  "fields": {
+    "day": 13
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 14,
+  "fields": {
+    "day": 14
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 15,
+  "fields": {
+    "day": 15
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 16,
+  "fields": {
+    "day": 16
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 17,
+  "fields": {
+    "day": 17
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 18,
+  "fields": {
+    "day": 18
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 19,
+  "fields": {
+    "day": 19
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 20,
+  "fields": {
+    "day": 20
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 21,
+  "fields": {
+    "day": 21
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 22,
+  "fields": {
+    "day": 22
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 23,
+  "fields": {
+    "day": 23
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 24,
+  "fields": {
+    "day": 24
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 25,
+  "fields": {
+    "day": 25
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 26,
+  "fields": {
+    "day": 26
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 27,
+  "fields": {
+    "day": 27
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 28,
+  "fields": {
+    "day": 28
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 29,
+  "fields": {
+    "day": 29
+  }
+},
+{
+  "model": "workouts.dailyworkout",
+  "pk": 30,
+  "fields": {
+    "day": 30
+  }
+}
+]
